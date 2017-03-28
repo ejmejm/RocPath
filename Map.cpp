@@ -73,6 +73,50 @@ std::vector<MapNode *> Map::shortestPath(std::string startNode, std::string endN
 	return std::vector<MapNode *>(0);
 }
 
+int Map::shortestDist(std::string startNode, std::string endNode){
+	std::vector<MapNode *> unvisited;
+	std::map<MapNode *, int> dist;
+	std::map<MapNode *, MapNode *> prev;
+
+	for (auto const &node : m_nodes) {
+		dist[node] = INT_MAX;
+		prev[node] = NULL;
+		unvisited.push_back(node);
+	}
+
+	dist[getNode(startNode)] = 0;
+
+	while (!unvisited.empty()) {
+		MapNode *closest = unvisited[0];
+		for (auto const &curNode : unvisited)
+			if (dist[curNode] < dist[closest])
+				closest = curNode;
+/*
+		if (closest == getNode(endNode)) {
+			int minDist = 0;
+			while (prev[closest] != NULL) {
+				minDist += prev[closest]->getEdges().at(closest);
+				closest = prev[closest];
+			}
+			//shortestPath.insert(shortestPath.begin(), closest);
+
+			return minDist;
+		}
+*/
+		unvisited.erase(std::remove(unvisited.begin(), unvisited.end(), closest), unvisited.end());
+
+		for (auto const &neighbor : closest->getEdges()) {
+			int alt = dist[closest] + neighbor.second;
+			if (alt < dist[neighbor.first]) {
+				dist[neighbor.first] = alt;
+				prev[neighbor.first] = closest;
+			}
+		}
+	}
+
+	return 0;
+}
+
 std::vector<std::string> Map::shortestPathS(std::string startNode, std::string endNode) {
 	std::vector<MapNode *> unvisited;
 	std::map<MapNode *, int> dist;
@@ -127,3 +171,4 @@ void Map::printShortestPath(std::string startNode, std::string endNode) {
 	std::cout << "Shortest path from \"" << startNode.c_str() << "\" to \"" << endNode.c_str() << "\":" << std::endl;
 	std::cout << pathString.substr(0, pathString.length() - 2).c_str() << std::endl;
 }
+

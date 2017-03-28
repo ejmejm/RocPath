@@ -1,8 +1,6 @@
 #include "Map.h"
 
 int main(int argc, char *argv[]) {
-	std::cout << "Hello World!" << std::endl;
-
 	Map map;
 	map.addNode(new MapNode("Rush Rhees"));
 	map.addNode(new MapNode("Morey"));
@@ -47,9 +45,12 @@ int main(int argc, char *argv[]) {
 		   
 	map.addUEdge("B&L", "Meliora", 144);
 
-	map.print();
+	//map.print();
 
-	map.printShortestPath("Douglass", "Hoyt");
-
-	std::cin.get();
+	if(argc != 3){
+		std::cout << "ERROR: You need to run with the arguments, start location and end location" << std::endl;
+		return 0;
+	}
+	
+	map.printShortestPath(argv[1], argv[2]);
 }

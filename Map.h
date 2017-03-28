@@ -19,6 +19,7 @@ public:
 	void addEdge(std::string node1, std::string node2, int dist, bool directed); //Add an edge to the graph
 	std::vector<MapNode *> shortestPath(std::string startNode, std::string endNode); //Returns a vector of the shortest path as nodes
 	std::vector<std::string> shortestPathS(std::string startNode, std::string endNode); //Returns a vector of the shortest path as location names
+	int shortestDist(std::string startNode, std::string endNode); //Number of steps in the shortest path
 	void printShortestPath(std::string startNode, std::string endNode); //Prints the shortest path from startNode to endNode
 	void print(); //Prints all the maps nodes and connections
 };
